@@ -1,15 +1,21 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-  }
-  
-  h1 {
-    text-align: center;
-  }
-  
-  #map {
-    height: 400px;
-    width: 100%;
-    margin-top: 20px;
-  }
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+#auth {
+  padding: 20px;
+  background: #f4f4f4;
+  border-bottom: 1px solid #ccc;
+}
+
+#map {
+  height: 400px;
+  width: 100%;
+  margin-top: 20px;
+}
