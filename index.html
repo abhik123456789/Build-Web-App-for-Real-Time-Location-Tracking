@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Real-Time Location Tracker</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Real-Time Location Tracker</h1>
+  <button onclick="getLocation()">Track My Location</button>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    // Initialize the map
+    const map = L.map('map').setView([0, 0], 15); // Default center at [0, 0]
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Connect to the Socket.IO server
+    const socket = io();
+
+    // Function to get the user's location
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, handleError);
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    // Function to display the user's location on the map
+    function showPosition(position) {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+
+      // Send location data to the server
+      socket.emit('location', { latitude: lat, longitude: lng });
+
+      // Update the map view
+      map.setView([lat, lng], 15);
+
+      // Add a marker at the user's location
+      L.marker([lat, lng])
+        .addTo(map)
+        .bindPopup('Your Location')
+        .openPopup();
+    }
+
+    // Function to handle errors
+    function handleError(error) {
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          alert("User denied the request for Geolocation.");
+          break;
+        case error.POSITION_UNAVAILABLE:
+          alert("Location information is unavailable.");
+          break;
+        case error.TIMEOUT:
+          alert("The request to get user location timed out.");
+          break;
+        case error.UNKNOWN_ERROR:
+          alert("An unknown error occurred.");
+          break;
+      }
+    }
+
+    // Listen for real-time location updates from the server
+    socket.on('updateLocation', (data) => {
+      const { latitude, longitude, deviceId } = data;
+
+      // Add a marker for the other device's location
+      L.marker([latitude, longitude])
+        .addTo(map)
+        .bindPopup(`Device: ${deviceId}`)
+        .openPopup();
+    });
+  </script>
+</body>
+</html>
