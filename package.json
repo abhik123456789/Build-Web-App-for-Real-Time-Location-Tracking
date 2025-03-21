@@ -1,14 +1,11 @@
 {
-  "name": "your-app-name",
-  "version": "1.0.0",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "express": "^4.17.1",
-    "socket.io": "^4.4.0"
-  },
-  "engines": {
-    "node": "22.14.0" 
+    "name": "real-time-location-tracker",
+    "version": "1.0.0",
+    "scripts": {
+      "start": "node src/server.js"
+    },
+    "dependencies": {
+      "express": "^4.17.1",
+      "socket.io": "^4.4.0"
+    }
   }
-}
