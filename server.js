@@ -8,19 +8,16 @@ const io = new Server(server);
 
 // Serve the frontend
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/public/index.html');
 });
 
 // Handle Socket.IO connections
 io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
+  console.log('A user connected');
 
   // Listen for location data from the client
   socket.on('location', (data) => {
-    console.log('Received location from', socket.id, ':', data);
-
-    // Add device ID to the location data
-    data.deviceId = socket.id;
+    console.log('Received location:', data);
 
     // Broadcast the location to all connected clients
     io.emit('updateLocation', data);
@@ -28,7 +25,7 @@ io.on('connection', (socket) => {
 
   // Handle disconnection
   socket.on('disconnect', () => {
-    console.log('A user disconnected:', socket.id);
+    console.log('A user disconnected');
   });
 });
 
