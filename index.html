@@ -8,12 +8,27 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Real-Time Location Tracker</h1>
-  <button onclick="getLocation()">Track My Location</button>
+  <div id="auth">
+    <div id="signup">
+      <h2>Sign Up</h2>
+      <input type="email" id="signup-email" placeholder="Email">
+      <input type="password" id="signup-password" placeholder="Password">
+      <input type="text" id="signup-name" placeholder="Name (Optional)">
+      <button onclick="signUp()">Sign Up</button>
+    </div>
+    <div id="login">
+      <h2>Login</h2>
+      <input type="email" id="login-email" placeholder="Email">
+      <input type="password" id="login-password" placeholder="Password">
+      <button onclick="login()">Login</button>
+    </div>
+    <button onclick="logout()">Logout</button>
+  </div>
   <div id="map"></div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="/socket.io/socket.io.js"></script>
+  <script src="supabase.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
